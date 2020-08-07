@@ -12,7 +12,9 @@ public class SortAlgorithms {
         }
 //        Print(bubbleSort(array));
 //       Print(QuickSort(array,0,array.length-1));
-        Print(insertSort(array));
+   //     Print(insertSort(array));
+        guibingSort(array,0,array.length-1);
+        Print(array);
     }
     //冒泡排序,从小到大，两层循环
     public static int[] bubbleSort(int[] array)  {
@@ -82,7 +84,47 @@ public class SortAlgorithms {
         return array;
      }
 //希尔排序 定一个起始间隔值，每次N=N/3+1去缩小，先是间隔N个取值去直接插入排序，之后每次间隔N个排序
-    //归并排序  先将原始数据分散成多个小序列，将小序列排好序（可用冒泡），再合并
+    //归并排序  先将原始数据分散成多个2个小序列（递归），再合并2个有序数组
+    public static void guibingSort(int[] array,int low,int high){
+        if(low>=high){
+            return ;
+        }
+        int mid=(low+high)/2;
+        guibingSort(array,low,mid);
+        guibingSort(array,mid+1,high);
+        merge(array,low,mid,high);
+    }
+    //合并2个有序小数组为一个有序大数组
+    public static void merge(int[] array,int low,int mid,int high){
+        int left1=low;
+        int left2=mid+1;
+        int[] str=new int[high-low+1];
+        int i=0;
+        while(left1<=mid&&left2<=high){
+            if(array[left1]<=array[left2]){
+                str[i]=array[left1];
+                left1++;
+                i++;
+            }else{
+                str[i]=array[left2];
+                left2++;
+                i++;
+            }
+        }
+        while(left1<=mid){
+            str[i]=array[left1];
+            i++;
+            left1++;
+        }
+        while(left2<=high){
+            str[i]=array[left2];
+            i++;
+            left2++;
+        }
+       for(int j=0;j< str.length;j++){
+           array[j+low]=str[j];
+       }
+    }
     //桶排序 先找出最大值和最小值去放入桶中 然后进行分桶 ，排好序在合并
     //基数排序 按照位数，位数不够的需要先补齐。先拍个位再拍十位 再拍百位
     }

@@ -145,4 +145,18 @@ public class BinarySortTree {
             }
         }
     }
+    //求树的高度
+    public int TreeDepth(TreeNode root){
+        if(root==null){
+            return 0;
+        }else{
+            int left=TreeDepth(root.left);
+            int right=TreeDepth(root.Right);
+            if(left>right){
+                return left+1;
+            }else{
+                return right+1;
+            }
+        }
+    }
 }
