@@ -11,10 +11,10 @@ public class SortAlgorithms {
             array[i]=Integer.valueOf(temp[i]);
         }
 //        Print(bubbleSort(array));
-//       Print(QuickSort(array,0,array.length-1));
+       Print(QuickSort(array,0,array.length-1));
    //     Print(insertSort(array));
-        guibingSort(array,0,array.length-1);
-        Print(array);
+//        guibingSort(array,0,array.length-1);
+      //  Print(array);
     }
     //冒泡排序,从小到大，两层循环
     public static int[] bubbleSort(int[] array)  {

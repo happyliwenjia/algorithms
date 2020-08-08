@@ -1,7 +1,10 @@
 import java.util.ArrayList;
+import java.util.Queue;
+import java.util.LinkedList;
+import java.util.Stack;
 
 public class Solution {
-  static class TreeNode {
+   static class TreeNode {
     int val = 0;
     TreeNode left = null;
     TreeNode right = null;
@@ -12,42 +15,45 @@ public class Solution {
     }
 
   }
-  //list1是作为返回值，list2作为节点存储值
-  ArrayList<Integer> list1=new ArrayList<>();
-  ArrayList<Integer> list2=new ArrayList<>();
-  int sum=0;
- //求树根节点到每个叶子节点的和
-  public ArrayList<Integer> FindSum(TreeNode root){
-    if(root==null){
-      return list1;
-    }
-    sum=sum+ root.val;
-    if(root.left==null&&root.right==null){
-      list1.add(sum);
-      sum=sum-root.val;
-    }
-    if(root.left!=null){
-      FindSum(root.left);
-      sum=sum- root.val;
-    }
-    if(root.right!=null){
-      FindSum(root.right);
-      sum=sum- root.val;
-    }
-    return list1;
-  }
   public static void main(String[] args) {
-    TreeNode node_10 = new TreeNode(10);
-    TreeNode node_5 = new TreeNode(5);
-    TreeNode node_12 = new TreeNode(12);
-    TreeNode node_4 = new TreeNode(4);
-    TreeNode node_7 = new TreeNode(7);
 
-    node_10.left = node_5;
-    node_10.right = node_12;
-    node_5.left = node_4;
-    node_5.right = node_7;
-//    System.out.println(new Solution().FindPath(node_10, 22));
+    Solution demo = new Solution();
+    TreeNode node_8 = new TreeNode(8);
+    TreeNode node_6 = new TreeNode(6);
+    TreeNode node_62 = new TreeNode(6);
+    TreeNode node_5 = new TreeNode(5);
+    TreeNode node_7 = new TreeNode(7);
+    TreeNode node_72 = new TreeNode(7);
+    TreeNode node_52 = new TreeNode(5);
+    node_8.left = node_6;
+    node_8.right = node_62;
+    node_6.left = node_5;
+    node_6.right = node_7;
+    node_62.left = node_52;
+    node_62.right = node_72;
+    System.out.println(demo.isSymmetrical(node_8));
   }
+  boolean isSymmetrical(TreeNode pRoot)
+  {
+    if(pRoot==null){
+      return true;
+    }
+    return isleftequalright(pRoot.left,pRoot.right);
+  }
+  public boolean isleftequalright(TreeNode root1,TreeNode root2){
+    if(root1==null&&root2==null){
+      return true;
+    }else if(root1==null||root2==null){
+      return false;
+    }
+    if(root1.val!=root2.val){
+      return false;
+    }else{
+      return isleftequalright(root1.left,root2.left)&&isleftequalright(root1.right,root2.right);
+    }
+  }
+
+
+
 
 }

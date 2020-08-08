@@ -17,6 +17,7 @@ public class inputdemo2 {
 //            list.add(Integer.valueOf(e[i]));
         }
 //        System.out.print(list);
+
         for(int i=0;i<e.length;i++) {
             System.out.print(list.get(i)+" ");
         }
