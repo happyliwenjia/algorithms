@@ -15,4 +15,25 @@ public class inputdemo1 {
             }
         }
     }
+    //求最小公倍数
+    public static int multiple(int x,int y){
+        int z ;
+        for(z=x;;z++){
+            if(z%x==0&&z%y==0){
+                return z;
+            }
+        }
+    }
+    //求最大公约数
+    public static int  method(int x,int y){
+        int a,b,c;
+        a=x;b=y;
+        /* 余数不为0，继续相除，直到余数为0 */
+        while(b!=0){
+            c=a%b;
+            a=b;
+            b=c;
+        }
+        return a ;
+    }
 }
