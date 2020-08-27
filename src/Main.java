@@ -1,5 +1,8 @@
+import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /*
     题目：给4个数1-10，加减乘除是否能够等于24，能就返回true，否则返回false
@@ -13,7 +16,11 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-System.out.print(9&12);
+        Main demo=new Main();
+        int x=2147483647;
+        String s="-556000000000";
+        int i=0;
+
     }
 
 }

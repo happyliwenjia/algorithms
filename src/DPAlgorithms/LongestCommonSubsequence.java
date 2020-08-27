@@ -5,7 +5,7 @@ package DPAlgorithms;
  * 问题：
  *     给定两个序列X={x1,x2,...,xn} 和 Y={y1,y2,...,,yn}，找出X和Y的最长公共子序列,
  *     排序顺序应该一致。
- *
+ *   dp[i][j]表示s1的前i个字符和s2的前j个字符的最长子序列的长度
  * 测试输入：
  *     A B C B D A B
  *     B D C A B A

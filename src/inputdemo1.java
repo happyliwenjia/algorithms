@@ -36,4 +36,19 @@ public class inputdemo1 {
         }
         return a ;
     }
+    //严格的写string字符串转换为int类型，如果转换 超过int的范围需要抛出异常
+    public void StringToInt(String s){
+        try{
+            int a=Integer.parseInt(s);
+            System.out.print(a);
+        }catch (Exception e){
+            if(s.charAt(0)=='-'){
+                //输出integer最小值
+                System.out.print(Integer.MIN_VALUE);
+            }else{
+                //输出integer最大值
+                System.out.print(Integer.MAX_VALUE);
+            }
+        }
+    }
 }
