@@ -1,76 +1,81 @@
-import java.util.Arrays;
+
 import java.util.Scanner;
 
 public class Main {
-
-
-    static int[][][] dp=new int[1005][1005*2][2];
-
-    static int[] head=new int[1005*2];
-    static int cnt;
-    static int[] a=new int[1005];
-    static int n,k;
-    class node{
-        int v;
-        int next;
-        int w;
-    }
-    static node[] p=new node[1005*2];
-    void addedge(int u,int v){
-        node temp=new node();
-        temp.v=v;
-        p[++cnt]=temp;
-        p[cnt].next=head[u];
-        head[u]=cnt;
-    }
-    void init(){
-        cnt=0;
-        Arrays.fill(head,-1);
-      //  Arrays.fill(dp,0);
-    }
-    void dfs(int x,int fa){
-        for(int i=0;i<=k;i++){
-            dp[x][i][0]=dp[x][i][1]=a[x];
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String[] strs = scanner.nextLine().trim().split(" ");
+        int[] arr = new int[strs.length];
+        for(int i = 0; i < strs.length; ++i) {
+            arr[i] = Integer.parseInt(strs[i]);
         }
-        for(int e=head[x];e!=-1;e=p[e].next){
-            int son=p[e].v;
-            if(son==fa) continue;
-            dfs(son,x);
-            for(int j=k;j>=0;j--){
-                for(int s=1;s<=j;s++){
-                    if(s>=2){
-                        dp[x][j][0]=Math.max(dp[x][j][0],dp[x][j-s][0]+dp[son][s-2][0]);
-                    }
-                    dp[x][j][1]=Math.max(dp[x][j][1],dp[x][j-s][0]+dp[son][s-1][1]);
-                    if(s>=2){
-                        dp[x][j][1]=Math.max(dp[x][j][1],dp[x][j-s][1]+dp[son][s-2][0]);
-                    }
-                }
+        System.out.println(maxSumDivSeven((arr)));
+    }
+    public static int maxSumDivSeven(int[] arr) {
+        int[][] dp = new int[arr.length + 1][7];
+        dp[0][0]=0;
+        for (int i = 1; i <7 ; i++) {
+            dp[0][i]=Integer.MIN_VALUE;
+        }
+        for(int i = 1; i <= arr.length; ++i) {
+            if(0 == arr[i - 1] % 7) {
+                dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][0] + arr[i - 1]);
+                dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][1] + arr[i - 1]);
+                dp[i][2] = Math.max(dp[i - 1][2], dp[i - 1][2] + arr[i - 1]);
+                dp[i][3] = Math.max(dp[i - 1][3], dp[i - 1][3] + arr[i - 1]);
+                dp[i][4] = Math.max(dp[i - 1][4], dp[i - 1][4] + arr[i - 1]);
+                dp[i][5] = Math.max(dp[i - 1][5], dp[i - 1][5] + arr[i - 1]);
+                dp[i][6] = Math.max(dp[i - 1][6], dp[i - 1][6] + arr[i - 1]);
+            } else if(1 == arr[i - 1] % 7) {
+                dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][6] + arr[i - 1]);
+                dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][0] + arr[i - 1]);
+                dp[i][2] = Math.max(dp[i - 1][2], dp[i - 1][1] + arr[i - 1]);
+                dp[i][3] = Math.max(dp[i - 1][3], dp[i - 1][2] + arr[i - 1]);
+                dp[i][4] = Math.max(dp[i - 1][4], dp[i - 1][3] + arr[i - 1]);
+                dp[i][5] = Math.max(dp[i - 1][5], dp[i - 1][4] + arr[i - 1]);
+                dp[i][6] = Math.max(dp[i - 1][6], dp[i - 1][5] + arr[i - 1]);
+            } else if(2 == arr[i - 1] % 7) {
+                dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][5] + arr[i - 1]);
+                dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][6] + arr[i - 1]);
+                dp[i][2] = Math.max(dp[i - 1][2], dp[i - 1][0] + arr[i - 1]);
+                dp[i][3] = Math.max(dp[i - 1][3], dp[i - 1][1] + arr[i - 1]);
+                dp[i][4] = Math.max(dp[i - 1][4], dp[i - 1][2] + arr[i - 1]);
+                dp[i][5] = Math.max(dp[i - 1][5], dp[i - 1][3] + arr[i - 1]);
+                dp[i][6] = Math.max(dp[i - 1][6], dp[i - 1][4] + arr[i - 1]);
+            } else if(3 == arr[i - 1] % 7) {
+                dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][4] + arr[i - 1]);
+                dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][5] + arr[i - 1]);
+                dp[i][2] = Math.max(dp[i - 1][2], dp[i - 1][6] + arr[i - 1]);
+                dp[i][3] = Math.max(dp[i - 1][3], dp[i - 1][0] + arr[i - 1]);
+                dp[i][4] = Math.max(dp[i - 1][4], dp[i - 1][1] + arr[i - 1]);
+                dp[i][5] = Math.max(dp[i - 1][5], dp[i - 1][2] + arr[i - 1]);
+                dp[i][6] = Math.max(dp[i - 1][6], dp[i - 1][3] + arr[i - 1]);
+            } else if(4 == arr[i - 1] % 7) {
+                dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][3] + arr[i - 1]);
+                dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][4] + arr[i - 1]);
+                dp[i][2] = Math.max(dp[i - 1][2], dp[i - 1][5] + arr[i - 1]);
+                dp[i][3] = Math.max(dp[i - 1][3], dp[i - 1][6] + arr[i - 1]);
+                dp[i][4] = Math.max(dp[i - 1][4], dp[i - 1][0] + arr[i - 1]);
+                dp[i][5] = Math.max(dp[i - 1][5], dp[i - 1][1] + arr[i - 1]);
+                dp[i][6] = Math.max(dp[i - 1][6], dp[i - 1][2] + arr[i - 1]);
+            } else if(5 == arr[i - 1] % 7) {
+                dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][2] + arr[i - 1]);
+                dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][3] + arr[i - 1]);
+                dp[i][2] = Math.max(dp[i - 1][2], dp[i - 1][4] + arr[i - 1]);
+                dp[i][3] = Math.max(dp[i - 1][3], dp[i - 1][5] + arr[i - 1]);
+                dp[i][4] = Math.max(dp[i - 1][4], dp[i - 1][6] + arr[i - 1]);
+                dp[i][5] = Math.max(dp[i - 1][5], dp[i - 1][0] + arr[i - 1]);
+                dp[i][6] = Math.max(dp[i - 1][6], dp[i - 1][1] + arr[i - 1]);
+            } else if(6 == arr[i - 1] % 7) {
+                dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + arr[i - 1]);
+                dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][2] + arr[i - 1]);
+                dp[i][2] = Math.max(dp[i - 1][2], dp[i - 1][3] + arr[i - 1]);
+                dp[i][3] = Math.max(dp[i - 1][3], dp[i - 1][4] + arr[i - 1]);
+                dp[i][4] = Math.max(dp[i - 1][4], dp[i - 1][5] + arr[i - 1]);
+                dp[i][5] = Math.max(dp[i - 1][5], dp[i - 1][6] + arr[i - 1]);
+                dp[i][6] = Math.max(dp[i - 1][6], dp[i - 1][0] + arr[i - 1]);
             }
         }
+        return dp[arr.length][0];
     }
-
-
-    public static void main(String[] args){
-        Scanner input=new Scanner(System.in);
-        Main demo=new Main();
-       demo.init();
-       n=input.nextInt();
-       k=input.nextInt();
-        for(int i=1;i<=n;i++){
-            a[i]=1;
-        }
-        int u,v;
-        for(int i=1;i<n;i++){
-            u=i;
-            v=input.nextInt();
-            demo.addedge(u,v);
-            demo.addedge(v,u);
-        }
-        demo.dfs(1,0);
-        System.out.println(Math.max(dp[1][k][0],dp[1][k][1]));
-
-
-    }
-
 }
