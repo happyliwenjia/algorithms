@@ -51,4 +51,8 @@ public class inputdemo1 {
             }
         }
     }
+    //字符串反转函数
+    public static String reverse1(String str) {
+        return new StringBuilder(str).reverse().toString();
+    }
 }

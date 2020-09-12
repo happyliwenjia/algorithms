@@ -1,12 +1,22 @@
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Scanner;
+import java.util.*;
 
 class Solution {
     public static void main(String[] args){
+        Solution demo=new Solution();
+        ThreadLocal<String> local=new ThreadLocal<>();
+Thread t1=new Thread(()->{
+    System.out.println(local.get());
+    local.set("1234");
+    System.out.println(local.get());
+});
+Thread t2=new Thread(()->{
+    System.out.println(local.get());
+    local.set("asdf");
+    System.out.println(local.get());
+});
+t1.start();
 
-        Scanner input=new Scanner(System.in);
+t2.start();
 
     }
-
 }

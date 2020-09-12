@@ -8,23 +8,26 @@ import java.util.Queue;
 public class BinarySortTree {
     //定义二叉排序树的每个元素的结构
     class TreeNode{
-        int data;
+        int val;
         TreeNode left=null;
-        TreeNode Right=null;
-        public TreeNode(int data){
-            this.data=data;
+        TreeNode right=null;
+        public TreeNode(int val){
+            this.val=val;
         }
     }
     public static void main(String[] args){
-        Scanner input=new Scanner(System.in);
-        String s=input.nextLine();
+//        Scanner input=new Scanner(System.in);
+//        String s=input.nextLine();
         BinarySortTree pro=new BinarySortTree();
-        String[] a=s.split("\\s+");
+//        String[] a=s.split("\\s+");
         TreeNode root=null;
-        for(int i=0;i<a.length;i++){
-            root=pro.insert(root,Integer.valueOf(a[i]));
-        }
-        pro.BFS(root);
+//        for(int i=0;i<a.length;i++){
+//            root=pro.insert(root,Integer.valueOf(a[i]));
+//        }
+        int[] nums={5,9,12,15,-1,17,18,1,2,-1,3};
+        root=pro.DFSCreateTree(nums);
+        pro.DFS(root);
+//        pro.BFS(root);
 //        pro.DFS(root);
 //        int b=input.nextInt();
 //        root=pro.deleteBST(root,b);
@@ -39,37 +42,36 @@ public class BinarySortTree {
     //一直循环到p为空（p就是待插入节点），prev是p的父节点，目的就是找到prev节点
     while(p!=null) {
         prev = p;
-        if (obj < p.data) {
+        if (obj < p.val) {
             p = p.left;
-        } else if (obj > p.data) {
-            p = p.Right;
+        } else if (obj > p.val) {
+            p = p.right;
         } else return root;//说明这个元素本身就是存在的，不用新加
     }
         if(root==null){
             root=new TreeNode(obj);
             return root;
         }
-        if(prev.data>obj){
+        if(prev.val>obj){
             prev.left=new TreeNode(obj);
         }else{
-            prev.Right=new TreeNode(obj);
+            prev.right=new TreeNode(obj);
         }
         return root;
     }
-
     //删除二叉排序树的元素 一步回溯，一步具体删除步骤，这一步做的是查找到这个元素的位置
     public  TreeNode deleteBST(TreeNode root,int obj){
         TreeNode p=root;
         if(p==null){
             return null;
         }
-        if(p.data==obj){
+        if(p.val==obj){
             p=delete(p);
-        }else if(p.data>obj){
+        }else if(p.val>obj){
              p.left=deleteBST(p.left,obj);
 
         }else{
-             p.Right=deleteBST(p.Right,obj);
+             p.right=deleteBST(p.right,obj);
 
         }
         return p;
@@ -78,20 +80,20 @@ public class BinarySortTree {
     public  TreeNode delete(TreeNode node){
         TreeNode temp=null;
         if(node.left==null){
-            node=node.Right;
-        }else if(node.Right==null){
+            node=node.right;
+        }else if(node.right==null){
             node=node.left;
         }else{
             temp=node;
             TreeNode s=node;
             s=s.left;
-            while(s.Right!=null){
+            while(s.right!=null){
                 temp=s;
-                s=s.Right;
+                s=s.right;
             }
-            temp.data=s.data;
+            temp.val=s.val;
             if(temp!=node){
-                temp.Right=s.left;
+                temp.right=s.left;
             }else{
                 node.left=s.left;
             }
@@ -103,27 +105,27 @@ public class BinarySortTree {
         TreeNode temp=root;
        int length=0;
        while(temp!=null){
-           if(temp.data==obj){
+           if(temp.val==obj){
                length++;
                return length;
-           }else if(temp.data>obj){
+           }else if(temp.val>obj){
                temp=temp.left;
                length++;
            }else{
-               temp=temp.Right;
+               temp=temp.right;
                length++;
            }
        }
        return 0;
     }
-    //深度优先搜索遍历 DFS depth First Search
+    //深度优先搜索遍历 DFS depth First Search，先序遍历
     public void DFS(TreeNode root){
         if(root==null){
             return;
         }else{
-            System.out.print(root.data+" ");
+            System.out.print(root.val+" ");
             DFS(root.left);
-            DFS(root.Right);
+            DFS(root.right);
         }
     }
     //广度优先搜索遍历 BFS  Breadth FirstSearch 拿一个放两个
@@ -136,12 +138,12 @@ public class BinarySortTree {
         e.add(root);
         while(e.size()!=0){
             TreeNode temp=e.remove();
-            System.out.print(temp.data+" ");
+            System.out.print(temp.val+" ");
             if(temp.left!=null){
                 e.add(temp.left);
             }
-            if(temp.Right!=null){
-                e.add(temp.Right);
+            if(temp.right!=null){
+                e.add(temp.right);
             }
         }
     }
@@ -151,12 +153,49 @@ public class BinarySortTree {
             return 0;
         }else{
             int left=TreeDepth(root.left);
-            int right=TreeDepth(root.Right);
+            int right=TreeDepth(root.right);
             if(left>right){
                 return left+1;
             }else{
                 return right+1;
             }
         }
+    }
+    //给定一组整数数组去建立一颗二叉树，如果输入为-1，表示这个节点为空，当作广度优先插入
+    public TreeNode DFSCreateTree(int[] nums){
+        if(nums.length==0){
+            return null;
+        }
+        TreeNode root=new TreeNode(nums[0]);
+        Queue<TreeNode> queue=new LinkedList<>();
+        queue.add(root);
+        //定义当前行的其实元素下标
+        int startIndex=1;
+        //当前行有多少元素
+        int columnIndex=2;
+        //换行
+        while(!queue.isEmpty()){
+            for(int i=startIndex;i<startIndex+columnIndex;i=i+2){
+                if(i==nums.length) return root;
+                TreeNode cur=queue.poll();
+                if(nums[i]!=-1){
+                    cur.left=new TreeNode(nums[i]);
+                    queue.add(cur.left);
+                }else{
+                    cur.left=null;
+                }
+                if(i+1==nums.length) return root;
+                if(nums[i+1]==-1){
+                    cur.right=null;
+                }else{
+                    cur.right=new TreeNode(nums[i+1]);
+                    queue.add(cur.right);
+                }
+            }
+            startIndex=startIndex+columnIndex;
+            //有的位置可能是空的
+            columnIndex= queue.size()*2;
+        }
+        return root;
     }
 }
