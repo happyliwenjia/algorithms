@@ -11,7 +11,7 @@ weight：1 2 5 6 7
 n=5 C=11*/
 public class ZeroAndOneBug {
     public static void main(String[] args){
-/*        Scanner input=new Scanner(System.in);
+        Scanner input=new Scanner(System.in);
         int n=input.nextInt();
         int C=input.nextInt();
         int[] weight=new int[n+1];
@@ -21,16 +21,20 @@ public class ZeroAndOneBug {
         }
         for(int i=1;i<n+1;i++){
             value[i]=input.nextInt();
-        }*/
-        int[] weight={0,1,2,5,6,7};
-        int[] value={0,1,6,18,22,28};
-        int n=5,C=11;
+        }
+        /*int[] weight={0,1,2,5,6,7};
+        int[] value={0,1,6,18,22,28};*/
+        /*int[] weight={0,1,2,3,4};
+        int[] value={0,2,4,4,5};
+        int n=4,C=5;*/
         ZeroAndOneBug demo=new ZeroAndOneBug();
         int[][] Price=demo.price(weight,value,C,n);
         System.out.println(Price[n][C]);
         demo.Printmessage(Price,weight,n,C);
         int[] desc=demo.DescPrice(weight,value,C,n);
         System.out.println(desc[desc.length-1]);
+        int[] desc2=CompletePack(weight,value,n,C);
+        System.out.println(desc2[desc2.length-1]);
     }
     //得到最高的物品价值
     public int[][] price(int[] weight,int[] value,int C,int n){
@@ -81,6 +85,22 @@ public class ZeroAndOneBug {
         }
         for(int i=1;i<n+1;i++){
             for(int j=C;j>=0;j--){
+                if(weight[i]>j){
+                    descprice[j]=descprice[j];
+                }else{
+                    descprice[j]=Math.max(descprice[j],value[i]+descprice[j-weight[i]]);
+                }
+            }
+        }
+        return descprice;
+    }
+    public static int[] CompletePack(int[] weight,int[] value,int n,int C){
+        int[] descprice=new int[C+1];
+        for(int j=0;j<C+1;j++){
+            descprice[j]=0;
+        }
+        for(int i=1;i<n+1;i++){
+            for(int j=0;j<=C;j++){
                 if(weight[i]>j){
                     descprice[j]=descprice[j];
                 }else{

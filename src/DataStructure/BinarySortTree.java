@@ -1,9 +1,11 @@
 package DataStructure;
 
-import javax.swing.tree.TreeNode;
-import java.util.LinkedList;
-import java.util.Scanner;
+import sun.reflect.generics.tree.Tree;
+
+import java.util.*;
 import java.util.Queue;
+import java.util.Stack;
+import javax.swing.tree.TreeNode;
 
 public class BinarySortTree {
     //定义二叉排序树的每个元素的结构
@@ -26,7 +28,7 @@ public class BinarySortTree {
 //        }
         int[] nums={5,9,12,15,-1,17,18,1,2,-1,3};
         root=pro.DFSCreateTree(nums);
-        pro.DFS(root);
+        System.out.println(pro.NSortfeidigui(root));
 //        pro.BFS(root);
 //        pro.DFS(root);
 //        int b=input.nextInt();
@@ -118,15 +120,83 @@ public class BinarySortTree {
        }
        return 0;
     }
-    //深度优先搜索遍历 DFS depth First Search，先序遍历
-    public void DFS(TreeNode root){
+    //深度优先搜索遍历 DFS depth First Search，先序递归遍历
+    public void DFSdigui(TreeNode root){
         if(root==null){
             return;
         }else{
             System.out.print(root.val+" ");
-            DFS(root.left);
-            DFS(root.right);
+            DFSdigui(root.left);
+            DFSdigui(root.right);
         }
+    }
+    //先序非递归遍历 PSortfeidigui 先序遍历非递归
+    //方法：栈中先入根节点，栈不停的出栈、进栈知道栈为空，先出栈输出 在入栈，先入右节点，再入左节点
+    public void PSortfeidigui(TreeNode root){
+        Stack<TreeNode> stack=new Stack<>();
+        if(root==null){
+            return;
+        }else{
+            stack.push(root);
+            while(!stack.empty()){
+                TreeNode cur=stack.pop();
+                System.out.println(cur.val);
+                if(cur.right!=null){
+                    stack.push(cur.right);
+                }
+                if(cur.left!=null){
+                    stack.push(cur.left);
+                }
+            }
+            return;
+        }
+    }
+    //中序非递归遍历 MSortfeidigui 先序遍历非递归
+    //方法：栈，当cur节点和栈同时为空时结束循环，若cur不为空一直进左子树，当cur为空时，取出
+    //栈顶元素，让他为栈顶的右子树，继续重复进左子树的操作
+    public List<Integer> MSortfeidigui(TreeNode root){
+        Stack<TreeNode> stack=new Stack<>();
+        List<Integer> list=new ArrayList<>();
+        TreeNode cur=root;
+        if(cur!=null){
+            while(cur!=null||!stack.empty()){
+                if(cur!=null){
+                    stack.push(cur);
+                    cur=cur.left;
+                }else{
+                    TreeNode temp=stack.pop();
+                    list.add(temp.val);
+                    cur=temp.right;
+                }
+            }
+        }
+        return list;
+    }
+    //后序非递归遍历 NSortfeidigui 先序遍历非递归
+    //方法：先序非递归 加个栈反向输出
+    public List<Integer> NSortfeidigui(TreeNode root){
+        Stack<TreeNode> stack1=new Stack<>();
+        Stack<Integer> stack2=new Stack<>();
+        List<Integer> list=new ArrayList<>();
+        if(root==null){
+            return list;
+        }else{
+            stack1.push(root);
+            while(!stack1.empty()){
+                TreeNode temp=stack1.pop();
+                stack2.push(temp.val);
+                if(temp.left!=null){
+                    stack1.push(temp.left);
+                }
+                if(temp.right!=null){
+                    stack1.push(temp.right);
+                }
+            }
+            while(!stack2.empty()){
+                list.add(stack2.pop());
+            }
+        }
+        return list;
     }
     //广度优先搜索遍历 BFS  Breadth FirstSearch 拿一个放两个
     public void BFS(TreeNode root){
